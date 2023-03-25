@@ -18,5 +18,5 @@ https://gitlab.com/pdftk-java/pdftk
 
 ## Usage
 
-* Example to fill a pdf form and write it in a file: (./example/fillFormAndSavePdf.php)
-* Example to fill a pdf form and send it to browser: (./example/fillFormAndSendToBrowser.php)
+* [Example to fill a pdf form and write it in a file](./example/fillFormAndSavePdf.php)
+* [Example to fill a pdf form and send it to browser](./example/fillFormAndSendToBrowser.php)
