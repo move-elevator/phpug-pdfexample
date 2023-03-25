@@ -1,0 +1,55 @@
+{
+    "name" : "move-elevator/sputnik-pdf-form",
+    "description" : "fill pdf forms with data",
+    "type" : "library",
+    "autoload" : {
+        "psr-4" : {
+            "MoveElevator\\SputnikPdfForm\\" : "src/"
+        }
+    },
+    "autoload-dev" : {
+        "psr-4" : {
+            "MoveElevator\\SputnikPdfForm\\Tests\\" : "tests/"
+        }
+    },
+    "require" : {
+        "php" : ">=8.2",
+        "mikehaertl/php-pdftk": "^0.13.0"
+    },
+    "require-dev" : {
+        "roave/security-advisories" : "dev-master",
+        "move-elevator/local-php-security-checker-installer" : "^1.0",
+        "phpstan/phpstan" : "^1.9",
+        "phpunit/phpunit" : "^9.5",
+        "slevomat/coding-standard" : "dev-master",
+        "squizlabs/php_codesniffer" : "^3.7",
+        "mockery/mockery": "^1.5"
+    },
+    "scripts" : {
+        "post-install-cmd" : [
+            "@activate-git-hooks"
+        ],
+        "post-update-cmd" : [
+            "@activate-git-hooks"
+        ],
+        "quickcheck" : [
+            "/usr/local/bin/php8.2 ./vendor/bin/phpstan.phar analyse -l max --memory-limit=512M -c ./phpstan.neon ./src/ --xdebug",
+            "/usr/local/bin/php8.2 ./vendor/bin/phpunit -c ./phpunit.xml --testdox",
+            "/usr/local/bin/php8.2 ./vendor/bin/phpcs ./src ./tests --standard=./ruleset.xml --extensions=php --parallel=100"
+        ],
+        "phpcs-fixer" : [
+            "/usr/local/bin/php8.2 ./vendor/bin/phpcbf ./src ./tests --standard=./ruleset.xml --extensions=php --parallel=100"
+        ],
+        "activate-git-hooks" : [
+            "[ -f ../.git/hooks/pre-commit.sh ] || mkdir -p ../.git/hooks/",
+            "[ -f ../.git/hooks/pre-commit.sh ] || echo '#!/bin/sh\n/usr/local/bin/php8.2 /usr/local/bin/composer quickcheck -d ./application' | tee ../.git/hooks/pre-commit.sh",
+            "[ -f ../.git/hooks/pre-commit ] || chmod +x ../.git/hooks/pre-commit.sh",
+            "[ -f ../.git/hooks/pre-commit ] || cd ../.git/hooks && [ -f ../.git/hooks/pre-commit ] || ln -snf ./pre-commit.sh ./pre-commit"
+        ]
+    },
+    "config" : {
+        "allow-plugins" : {
+            "dealerdirect/phpcodesniffer-composer-installer" : true
+        }
+    }
+}
