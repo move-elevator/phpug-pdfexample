@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MoveElevator\SputnikPdfForm\Writer;
 
 use mikehaertl\pdftk\Pdf;
+use MoveElevator\SputnikPdfForm\Formatter\FieldValuesFormatter;
 
 class PdfFormWriter
 {
@@ -45,10 +46,9 @@ class PdfFormWriter
                 '_command' => $this->pdftkPath,
             ]
         );
-        $pdf->getCommand();
 
         return $pdf
-            ->fillForm($fieldValues)
+            ->fillForm(FieldValuesFormatter::format($fieldValues))
             ->flatten()
             ->needAppearances()
             ->compress();
