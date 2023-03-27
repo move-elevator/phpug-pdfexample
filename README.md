@@ -4,7 +4,7 @@ Fill a pdf form and save it in a closed file.
 
 ## Requirement
 
-### pdftk port to java >= 3.3.3
+### pdftk port to java >= 3.3.2
 
 https://gitlab.com/pdftk-java/pdftk
 
@@ -14,7 +14,7 @@ https://gitlab.com/pdftk-java/pdftk
 
 #### Install on linux
 
-```sudo apt-get install pdftk-java```
+```wget http://ftp.debian.org/debian/pool/main/p/pdftk-java/pdftk-java_3.3.2-1_all.deb && sudo apt install ./pdftk-java_3.3.2-1_all.deb```
 
 ## Usage
 
