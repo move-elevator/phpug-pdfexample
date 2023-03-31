@@ -13,8 +13,10 @@
         }
     },
     "require" : {
+        "ext-intl": "*",
         "php" : ">=8.2",
-        "mikehaertl/php-pdftk": "^0.13.0"
+        "mikehaertl/php-pdftk": "^0.13.0",
+        "moneyphp/money": "^4.1"
     },
     "require-dev" : {
         "roave/security-advisories" : "dev-master",

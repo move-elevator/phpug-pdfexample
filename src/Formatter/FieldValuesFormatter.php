@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace MoveElevator\SputnikPdfForm\Formatter;
 
@@ -8,6 +8,11 @@ use Money\Money;
 
 class FieldValuesFormatter
 {
+    /**
+     * @param array<string, mixed> $fieldValues
+     *
+     * @return array<string, mixed>
+     */
     public static function format(array $fieldValues): array
     {
         $formattedFieldValues = [];

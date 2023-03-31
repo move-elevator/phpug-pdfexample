@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MoveElevator\SputnikPdfForm\Writer;
 
 use mikehaertl\pdftk\Pdf;
+use MoveElevator\SputnikPdfForm\Collection\PdfFormCollection;
 use MoveElevator\SputnikPdfForm\Formatter\FieldValuesFormatter;
 
 class PdfFormWriter
@@ -15,40 +16,56 @@ class PdfFormWriter
     ) {
     }
 
-    public function writePdfFile(string $pdfSourcePath, string $targetFileName, array $fieldValues): string
+    public function writePdfFile(PdfFormCollection $pdfFormCollection): string
     {
-        $this->preparePdf($pdfSourcePath, $fieldValues)->saveAs(
-            sprintf('%s%s', $this->pdfTargetFolder, $targetFileName)
-        );
+        $this->preparePdf($pdfFormCollection)
+            ->saveAs(sprintf('%s%s', $this->pdfTargetFolder, $pdfFormCollection->getTargetFileName()));
 
-        return sprintf('%s%s', $this->pdfTargetFolder, $targetFileName);
+        return sprintf('%s%s', $this->pdfTargetFolder, $pdfFormCollection->getTargetFileName());
     }
 
-    public function sendPdf(string $pdfSourcePath, string $targetFileName, array $fieldValues): bool
+    public function sendPdf(PdfFormCollection $pdfFormCollection): bool
     {
-        return $this->preparePdf($pdfSourcePath, $fieldValues)
+        return $this->preparePdf($pdfFormCollection)
             ->send(
-                $targetFileName,
+                $pdfFormCollection->getTargetFileName(),
                 false,
                 [
                     'Cache-Control' => 'no-cache',
                     'Content-Type' => 'application/pdf',
-                    'Content-Disposition' => 'attachment; filename="' . $targetFileName . '"',
+                    'Content-Disposition' => sprintf(
+                        'attachment; filename="%s"',
+                        $pdfFormCollection->getTargetFileName()
+                    ),
                 ]
             );
     }
 
-    private function preparePdf(string $pdfSourcePath, array $fieldValues): Pdf
+    private function preparePdf(PdfFormCollection $pdfFormCollection): Pdf
     {
-        $pdf = new Pdf(
-            $pdfSourcePath,
-            [
-                '_command' => $this->pdftkPath,
-            ]
-        );
+        $pdfCollection = new Pdf(null, ['_command' => $this->pdftkPath]);
 
-        return $pdf
-            ->fillForm(FieldValuesFormatter::format($fieldValues))
+        foreach ($pdfFormCollection->getPdfForms() as $pdfForm) {
+            $pdfDocument = new Pdf($pdfForm->getPdfSourcePath(), ['_command' => $this->pdftkPath]);
+
+            $pdfDocument
+                ->fillForm(FieldValuesFormatter::format($pdfForm->getFieldValues()))
+                ->flatten()
+                ->needAppearances()
+                ->compress();
+
+            if (null !== $pdfFormCollection->getFontPath()) {
+                $pdfDocument->replacementFont($pdfFormCollection->getFontPath());
+            }
+
+            $pdfCollection->addFile($pdfDocument);
+        }
+
+        if (null !== $pdfFormCollection->getFontPath()) {
+            $pdfCollection->replacementFont($pdfFormCollection->getFontPath());
+        }
+
+        return $pdfCollection
             ->flatten()
             ->needAppearances()
             ->compress();
