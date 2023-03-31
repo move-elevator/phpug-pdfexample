@@ -19,6 +19,7 @@
         "moneyphp/money": "^4.1"
     },
     "require-dev" : {
+        "ext-xdebug" : "*",
         "roave/security-advisories" : "dev-master",
         "move-elevator/local-php-security-checker-installer" : "^1.0",
         "phpstan/phpstan" : "^1.9",
