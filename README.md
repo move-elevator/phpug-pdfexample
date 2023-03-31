@@ -19,4 +19,13 @@ https://gitlab.com/pdftk-java/pdftk
 ## Usage
 
 * [Example to fill a pdf form and write it in a file](./example/fillFormAndSavePdf.php)
+** show how to fill a pdf form with multiple source files and how to overwrite the pdf font file
 * [Example to fill a pdf form and send it to browser](./example/fillFormAndSendToBrowser.php)
+** show how to send file to browser without saving it
+
+## Changelog
+
+### 0.2.0
+
+* Add support for pdf form with multiple source file
+* Add overwrite for the pdf font file
