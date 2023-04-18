@@ -24,11 +24,11 @@ class GetMetadataInformation
             throw new RuntimeException('Could not get metadata information', 1681805721);
         }
 
-        if (false === is_array($metaData->getArrayCopy()['Info'])) {
+        if (false === is_array($metaData->getArrayCopy()['Info'] ?? null)) {
             return null;
         }
 
-        if (false === is_scalar($metaData->getArrayCopy()['Info'][$key])) {
+        if (false === is_scalar($metaData->getArrayCopy()['Info'][$key] ?? null)) {
             return null;
         }
 
