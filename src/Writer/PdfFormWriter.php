@@ -47,7 +47,7 @@ class PdfFormWriter
 
         foreach ($pdfFormCollection->getPdfForms() as $pdfForm) {
             $pdfDocument = new Pdf($pdfForm->getPdfSourcePath(), ['_command' => $this->pdftkPath]);
-
+            $pdfDocument->getData();
             $pdfDocument
                 ->fillForm(FieldValuesFormatter::format($pdfForm->getFieldValues()))
                 ->flatten()
