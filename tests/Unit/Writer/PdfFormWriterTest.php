@@ -66,7 +66,7 @@ class PdfFormWriterTest extends TestCase
         );
 
         $pdfFormWriter->sendPdf($pdfFormCollection);
-        
+
         $this->assertContains('Cache-Control: no-cache', xdebug_get_headers());
         $this->assertContains('Content-Type: application/pdf', xdebug_get_headers());
         $this->assertContains('Content-Disposition: attachment; filename="filled.pdf"', xdebug_get_headers());
