@@ -52,7 +52,7 @@ class PdfFormWriterTest extends TestCase
         $pdfFormCollection = new PdfFormCollection(
             'filled.pdf',
             new PdfForm(
-                __DIR__ . '/../../Fixtures/Files/form.pdf',
+                dir(__DIR__) . '/../../Fixtures/Files/form.pdf',
                 [
                     'name' => 'Wilhelm Wamhoff Gesellschaft mit beschränkter Haftung & Co.' .
                         ' Kommanditgesellschaft Wärme- und Kältetechnik, Kundendienst',
@@ -61,7 +61,7 @@ class PdfFormWriterTest extends TestCase
         );
 
         $pdfFormWriter = new PdfFormWriter(
-            __DIR__ . '/../../Fixtures/Files/',
+            dir(__DIR__) .  '/../../Fixtures/Files/',
             $this->pathToPdftk
         );
 
@@ -75,7 +75,7 @@ class PdfFormWriterTest extends TestCase
     protected function setUp(): void
     {
         if (false === empty(getenv('PDFTK_PATH'))) {
-            $this->pathToPdftk = (string) getenv('PDFTK_PATH');
+            $this->pathToPdftk = (string)getenv('PDFTK_PATH');
         }
 
         if (true === empty($this->pathToPdftk)) {
@@ -85,8 +85,8 @@ class PdfFormWriterTest extends TestCase
 
     protected function tearDown(): void
     {
-        if (file_exists(__DIR__ . '/../../Fixtures/Files/filled.pdf')) {
-            unlink(__DIR__ . '/../../Fixtures/Files/filled.pdf');
+        if (file_exists(dir(__DIR__) .  '/../../Fixtures/Files/filled.pdf')) {
+            unlink(dir(__DIR__) .  '/../../Fixtures/Files/filled.pdf');
         }
     }
 }
