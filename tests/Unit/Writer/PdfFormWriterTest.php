@@ -74,12 +74,13 @@ class PdfFormWriterTest extends TestCase
 
     protected function setUp(): void
     {
-        $pathToPdftk = shell_exec(sprintf("which %s", escapeshellarg('pdftk')));
-        if (true === empty($pathToPdftk)) {
-            $this->markTestSkipped('Pdftk is not installed.');
+        if (false === empty(getenv('PDFTK_PATH'))) {
+            $this->pathToPdftk = (string) getenv('PDFTK_PATH');
         }
 
-        $this->pathToPdftk = trim($pathToPdftk);
+        if (true === empty($this->pathToPdftk)) {
+            $this->markTestSkipped('PDFTK_PATH is not set');
+        }
     }
 
     protected function tearDown(): void

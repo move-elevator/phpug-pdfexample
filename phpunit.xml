@@ -13,4 +13,7 @@
       <directory>./tests</directory>
     </testsuite>
   </testsuites>
+    <php>
+        <env name="PDFTK_PATH" value="/usr/local/bin/pdftk"/>
+    </php>
 </phpunit>
