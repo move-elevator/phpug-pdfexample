@@ -10,7 +10,7 @@ class PdfDocumentExampleTest extends PdfTestCase
 {
     public function testIfPdfHasExpectedFields(): void
     {
-        $pdfPath = __DIR__ . '/../Fixtures/Files/form.pdf';
+        $pdfPath = dirname(__FILE__) . '/../Fixtures/Files/form.pdf';
 
         $this->assertPdfFieldsExists(
             [

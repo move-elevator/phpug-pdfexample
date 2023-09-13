@@ -18,30 +18,30 @@ class PdfFormWriterTest extends TestCase
         $pdfFormCollection = new PdfFormCollection(
             'filled.pdf',
             new PdfForm(
-                __DIR__ . '/../../Fixtures/Files/form.pdf',
+                dirname(__FILE__) . '/../../Fixtures/Files/form.pdf',
                 [
                     'name' => 'Wilhelm Wamhoff Gesellschaft mit beschränkter Haftung & Co.' .
                         ' Kommanditgesellschaft Wärme- und Kältetechnik, Kundendienst',
                 ]
             ),
             new PdfForm(
-                __DIR__ . '/../../Fixtures/Files/form2.pdf',
+                dirname(__FILE__) . '/../../Fixtures/Files/form2.pdf',
                 [
                     'name' => 'ÄÜÖ äüö мирано čárka',
                 ]
             )
         );
 
-        $pdfFormCollection->setFontPath(__DIR__ . '/../../Fixtures/Fonts/DejaVuSans.ttf');
+        $pdfFormCollection->setFontPath(dirname(__FILE__) . '/../../Fixtures/Fonts/DejaVuSans.ttf');
 
         $pdfFormWriter = new PdfFormWriter(
-            __DIR__ . '/../../Fixtures/Files/',
+            dirname(__FILE__) . '/../../Fixtures/Files/',
             $this->pathToPdftk
         );
 
         $pdfFormWriter->writePdfFile($pdfFormCollection);
 
-        $this->assertFileExists(__DIR__ . '/../../Fixtures/Files/filled.pdf');
+        $this->assertFileExists(dirname(__FILE__) . '/../../Fixtures/Files/filled.pdf');
     }
 
     /**
@@ -52,7 +52,7 @@ class PdfFormWriterTest extends TestCase
         $pdfFormCollection = new PdfFormCollection(
             'filled.pdf',
             new PdfForm(
-                dir(__DIR__) . '/../../Fixtures/Files/form.pdf',
+                dirname(__FILE__) . '/../../Fixtures/Files/form.pdf',
                 [
                     'name' => 'Wilhelm Wamhoff Gesellschaft mit beschränkter Haftung & Co.' .
                         ' Kommanditgesellschaft Wärme- und Kältetechnik, Kundendienst',
@@ -61,7 +61,7 @@ class PdfFormWriterTest extends TestCase
         );
 
         $pdfFormWriter = new PdfFormWriter(
-            dir(__DIR__) .  '/../../Fixtures/Files/',
+            dirname(__FILE__) .  '/../../Fixtures/Files/',
             $this->pathToPdftk
         );
 
@@ -85,8 +85,8 @@ class PdfFormWriterTest extends TestCase
 
     protected function tearDown(): void
     {
-        if (file_exists(dir(__DIR__) .  '/../../Fixtures/Files/filled.pdf')) {
-            unlink(dir(__DIR__) .  '/../../Fixtures/Files/filled.pdf');
+        if (file_exists(dirname(__FILE__) .  '/../../Fixtures/Files/filled.pdf')) {
+            unlink(dirname(__FILE__) .  '/../../Fixtures/Files/filled.pdf');
         }
     }
 }
