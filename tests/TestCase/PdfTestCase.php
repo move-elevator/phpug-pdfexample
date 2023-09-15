@@ -12,17 +12,15 @@ class PdfTestCase extends TestCase
 {
     protected string $pathToPdftk = '';
 
-    public function __construct(?string $name = null, array $data = [], string $dataName = '')
+    protected function setUp(?string $name = null, array $data = [], string $dataName = ''): void
     {
-        parent::__construct($name, $data, $dataName);
+        $pthToPdftk = exec('which pdftk');
 
-        if (false === empty(getenv('PDFTK_PATH'))) {
-            $this->pathToPdftk = getenv('PDFTK_PATH');
-        }
-
-        if (true === empty($this->pathToPdftk)) {
+        if (true === empty($pthToPdftk)) {
             $this->markTestSkipped('PDFTK_PATH is not set');
         }
+
+        $this->pathToPdftk = $pthToPdftk;
     }
 
     public function assertPdfFieldsExists(array $expectedFields, string $actualPdfPath)

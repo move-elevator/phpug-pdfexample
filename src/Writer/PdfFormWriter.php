@@ -7,6 +7,7 @@ namespace MoveElevator\SputnikPdfForm\Writer;
 use mikehaertl\pdftk\Pdf;
 use MoveElevator\SputnikPdfForm\Collection\PdfFormCollection;
 use MoveElevator\SputnikPdfForm\Formatter\FieldValuesFormatter;
+use RuntimeException;
 
 class PdfFormWriter
 {
@@ -18,27 +19,37 @@ class PdfFormWriter
 
     public function writePdfFile(PdfFormCollection $pdfFormCollection): string
     {
-        $this->preparePdf($pdfFormCollection)
-            ->saveAs(sprintf('%s%s', $this->pdfTargetFolder, $pdfFormCollection->getTargetFileName()));
+        $pdf = $this->preparePdf($pdfFormCollection);
+        $pdf->saveAs(sprintf('%s%s', $this->pdfTargetFolder, $pdfFormCollection->getTargetFileName()));
+
+        if (false === empty($pdf->getError())) {
+            throw new RuntimeException($pdf->getError(), 1694815132);
+        }
 
         return sprintf('%s%s', $this->pdfTargetFolder, $pdfFormCollection->getTargetFileName());
     }
 
     public function sendPdf(PdfFormCollection $pdfFormCollection): bool
     {
-        return $this->preparePdf($pdfFormCollection)
-            ->send(
-                $pdfFormCollection->getTargetFileName(),
-                false,
-                [
-                    'Cache-Control' => 'no-cache',
-                    'Content-Type' => 'application/pdf',
-                    'Content-Disposition' => sprintf(
-                        'attachment; filename="%s"',
-                        $pdfFormCollection->getTargetFileName()
-                    ),
-                ]
-            );
+        $pdf = $this->preparePdf($pdfFormCollection);
+        $result = $pdf->send(
+            $pdfFormCollection->getTargetFileName(),
+            false,
+            [
+                'Cache-Control' => 'no-cache',
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => sprintf(
+                    'attachment; filename="%s"',
+                    $pdfFormCollection->getTargetFileName()
+                ),
+            ]
+        );
+
+        if (false === empty($pdf->getError())) {
+            throw new RuntimeException($pdf->getError(), 1694815132);
+        }
+
+        return $result;
     }
 
     private function preparePdf(PdfFormCollection $pdfFormCollection): Pdf
